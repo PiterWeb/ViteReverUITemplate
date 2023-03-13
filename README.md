@@ -1,6 +1,8 @@
-# ReactiveUI
+# ReactiveUI (React-like Library)
 
-### Attempting to recreate a library similar to React & ReactDOM without using a virtual DOM and TS native
+### 🔥 Similar to React 👀
+### 🔑 TS Native 🔐
+### ❌ No Virtual DOM 📦
 
 #### Current functionality:
 - [x] JSX Elements (html & js evaluated)
