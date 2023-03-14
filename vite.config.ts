@@ -19,7 +19,7 @@ export default defineConfig({
             name: "ui-proccessor",
             transform(code, id) {
                 if (!id.includes("tsx") && !id.includes("jsx")) return;
-                console.log(code);
+                // console.log(code);
             },
         },
     ],

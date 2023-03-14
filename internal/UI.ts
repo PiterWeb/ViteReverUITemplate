@@ -5,7 +5,9 @@ interface createElementOptions {
     id?: string;
     style?: string;
     onClick?: (e: MouseEvent) => void;
-    ref?: (el: HTMLElement) => void;
+    // ref?: (el: HTMLElement) => void;
+    src?: string;
+    href?: string;
 }
 
 type children =
@@ -32,6 +34,8 @@ export default class UI {
             if (opts?.className !== undefined) el.className = opts?.className;
             if (opts?.id !== undefined) el.id = opts?.id;
             if (opts?.onClick !== undefined) el.onclick = opts?.onClick;
+            if (opts?.src !== undefined) el.src = opts?.src;
+            if (opts?.href !== undefined) el.href = opts?.href;
         }
 
         if (children === null) return el;
@@ -86,7 +90,7 @@ export default class UI {
             });
 
         const finalEl = el as HTMLElement;
-        if (opts?.ref !== undefined) opts?.ref(finalEl);
+        // if (opts?.ref !== undefined) opts?.ref(finalEl);
 
         return finalEl;
     }
@@ -108,8 +112,6 @@ export default class UI {
         parent.appendChild(actualEl);
 
         elFun.prototype.state.addListener("el", (el: HTMLElement) => {
-            console.log("rerendering");
-
             if (el instanceof DocumentFragment) {
                 parent.replaceChildren(el);
             } else parent.replaceChild(el, actualEl);

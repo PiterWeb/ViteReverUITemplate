@@ -1,13 +1,11 @@
+import "./index.css";
 import UI from "@UI";
-import ExampleStateFull from "./ExampleStateFull";
-import ExampleStateLess from "./ExampleStateLess";
+import Example from "./Example";
 
-UI.HandleStateFull(
-    ExampleStateFull,
-    document.getElementById("app") ?? document.body
-);
+UI.HandleStateFull(Example, document.getElementById("app") ?? document.body);
 
-UI.HandleStateLess(
-    ExampleStateLess,
-    document.getElementById("app") ?? document.body
-);
+// StateLess Example
+// UI.HandleStateLess(
+//     Example,
+//     document.getElementById("app") ?? document.body
+// );
