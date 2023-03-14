@@ -1,5 +1,4 @@
 //@ts-nocheck
-import { Listener } from "./StateStore";
 
 interface createElementOptions {
     className?: string;
@@ -94,15 +93,27 @@ export default class UI {
 
     public static Fragment = "Fragment";
 
+    private static setOrderIds(el: HTMLElement, type: "local" | "globalFrag") {
+        for (let i = 0; i < el.children.length; i++) {
+            el.children.item(i)?.setAttribute(`data-${type}Id`, i.toString());
+        }
+    }
+
     public static HandleStateFull(
         elFun: () => HTMLElement,
         parent: HTMLElement
     ) {
         let actualEl = elFun();
+
         parent.appendChild(actualEl);
 
         elFun.prototype.state.addListener("el", (el: HTMLElement) => {
-            parent.replaceChild(el, actualEl);
+            console.log("rerendering");
+
+            if (el instanceof DocumentFragment) {
+                parent.replaceChildren(el);
+            } else parent.replaceChild(el, actualEl);
+
             actualEl = el;
         });
     }

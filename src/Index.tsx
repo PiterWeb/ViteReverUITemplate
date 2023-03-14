@@ -26,10 +26,9 @@ export default function Index3(): HTMLElement {
     };
 
     return (
-        <div>
+        <>
             <button onClick={handleClick}>Click me</button>
             <p>Counter : {counter}</p>
-            hola
-        </div>
+        </>
     );
 }

@@ -8,7 +8,7 @@
 - [x] JSX Elements (html & js evaluated)
 - [x] useState
 - [x] useEffect (state & mounted)
-- [ ] Fragments
+- [x] Fragments (<> </>) [Trying to fix: If you use fragments and there are more elements in the same parent node they will be deleted on the next render] 
 
 
 **The project is built on top of Vite**
