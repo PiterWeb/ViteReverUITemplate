@@ -1,4 +1,13 @@
 import UI from "@UI";
-import Index from "./Index";
+import ExampleStateFull from "./ExampleStateFull";
+import ExampleStateLess from "./ExampleStateLess";
 
-UI.HandleStateFull(Index, document.getElementById("app") ?? document.body);
+UI.HandleStateFull(
+    ExampleStateFull,
+    document.getElementById("app") ?? document.body
+);
+
+UI.HandleStateLess(
+    ExampleStateLess,
+    document.getElementById("app") ?? document.body
+);

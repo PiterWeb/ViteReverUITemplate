@@ -117,4 +117,11 @@ export default class UI {
             actualEl = el;
         });
     }
+
+    public static HandleStateLess(
+        elFun: () => HTMLElement,
+        parent: HTMLElement
+    ) {
+        parent.appendChild(elFun());
+    }
 }
