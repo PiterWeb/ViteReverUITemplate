@@ -1,9 +1,11 @@
 import UI from "@UI";
-import { useState } from "@UIFunctions";
+import { useState, useEffect } from "@UIFunctions";
 import vitelogo from "/vite.svg";
 
 export default function ExampleStateFull() {
-    // Mounted useeffect has to come before useState
+    useEffect(ExampleStateFull, () => {
+        console.log("ExampleStateFull mounted");
+    });
 
     const [count, setCount] = useState(ExampleStateFull, 0, "count");
 
@@ -23,26 +25,24 @@ export default function ExampleStateFull() {
                 alt="Vite.js Logo"
             />
             <span>
-                Powered by{" "}
+                Powered by {""}
                 <a className="text-blue-600" href="https://vitejs.dev/">
                     Vite
                 </a>
             </span>
-            <h1 className={`text-3xl font-bold mb-8`}>ReactiveUI</h1>
-            <div
-                className={`flex justify-center items-center bg-white rounded-full h-16 w-16 mb-8`}
-            >
-                <p className={`text-2xl font-bold`}>{count}</p>
+            <h1 className="text-3xl font-bold mb-8">ReactiveUI</h1>
+            <div className="flex justify-center items-center bg-white rounded-full h-16 w-16 mb-8">
+                <p className="text-2xl font-bold">{count}</p>
             </div>
-            <div className={`flex justify-center items-center`}>
+            <div className="flex justify-center items-center">
                 <button
-                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-4`}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-4"
                     onClick={decrementCount}
                 >
                     -
                 </button>
                 <button
-                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full`}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                     onClick={incrementCount}
                 >
                     +

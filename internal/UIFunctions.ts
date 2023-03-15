@@ -1,4 +1,3 @@
-
 import StateStore from "./StateStore";
 
 // state (cambio) -> listener accion en la funcion -> rerender
@@ -20,7 +19,7 @@ export function useState<t>(el: () => HTMLElement, initvalue: t, id?: string) {
     return [value, setState] as [t, (newValue: t) => HTMLElement];
 }
 
-// 
+//
 export function useEffect(
     el: () => HTMLElement,
     callback: () => void,

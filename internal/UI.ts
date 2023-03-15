@@ -97,27 +97,79 @@ export default class UI {
 
     public static Fragment = "Fragment";
 
-    private static setOrderIds(el: HTMLElement, type: "local" | "globalFrag") {
+    private static setId(el: HTMLElement, id: string) {
+        if (!(el instanceof DocumentFragment));
+
         for (let i = 0; i < el.children.length; i++) {
-            el.children.item(i)?.setAttribute(`data-${type}Id`, i.toString());
+            const child = el.children.item(i);
+
+            if (child === null) continue;
+            child.setAttribute("data-fr-id", id);
+        }
+    }
+
+    private static handleFragmentRerender(
+        parent: HTMLElement,
+        newElement: HTMLElement,
+        actualElement: HTMLElement,
+        id: string
+    ) {
+        let firstFragmentChild: Element;
+
+        for (let i = 0; i < parent.children.length; i++) {
+            const child = parent.children.item(i);
+            if (child === null) continue;
+            if (child.getAttribute("data-fr-id") === id) {
+                parent.insertBefore(newElement, child);
+                firstFragmentChild = child;
+                break;
+            }
+        }
+
+        if (firstFragmentChild === undefined) return;
+
+        let nextSibling = firstFragmentChild.nextSibling;
+        firstFragmentChild.remove();
+
+        while (nextSibling !== null) {
+            const next = nextSibling.nextSibling;
+            parent.removeChild(nextSibling);
+            nextSibling = next;
         }
     }
 
     public static HandleStateFull(
-        elFun: () => HTMLElement,
+        elementFun: () => HTMLElement,
         parent: HTMLElement
     ) {
-        let actualEl = elFun();
+        let actualElement = elementFun();
+        const id = Math.random().toString(36).substring(7);
 
-        parent.appendChild(actualEl);
+        if (actualElement instanceof DocumentFragment)
+            this.setId(actualElement, id);
 
-        elFun.prototype.state.addListener("el", (el: HTMLElement) => {
-            if (el instanceof DocumentFragment) {
-                parent.replaceChildren(el);
-            } else parent.replaceChild(el, actualEl);
+        parent.appendChild(actualElement);
 
-            actualEl = el;
-        });
+        elementFun.prototype.state.addListener(
+            "el",
+            (newElement: HTMLElement) => {
+                console.log("rerender", id);
+
+                if (!(newElement instanceof DocumentFragment)) {
+                    parent.replaceChild(newElement, actualElement);
+                    actualElement = newElement;
+                    return;
+                }
+                this.setId(newElement, id);
+                this.handleFragmentRerender(
+                    parent,
+                    newElement,
+                    actualElement,
+                    id
+                );
+                actualElement = newElement;
+            }
+        );
     }
 
     public static HandleStateLess(
