@@ -1,28 +1,15 @@
-//@ts-nocheck
-
+// @ts-nocheck
 interface createElementOptions {
-    className?: string;
-    id?: string;
-    style?: string;
-    onClick?: (e: MouseEvent) => void;
-    // ref?: (el: HTMLElement) => void;
-    src?: string;
-    href?: string;
+    [key: string]: any;
 }
 
 type children =
     | (string | number | boolean | HTMLElement)[]
-    | (string | number | boolean | HTMLElement)[][]
-    | HTMLElement
-    | string
-    | number
-    | boolean
-    | null;
-
+    | (string | number | boolean | HTMLElement)[][];
 export default class UI {
     public static createElement(
         tagName: string,
-        opts: createElementOptions | null,
+        opts?: createElementOptions,
         ...children: children
     ): HTMLElement {
         let el = document.createElement(tagName);
@@ -30,64 +17,29 @@ export default class UI {
         if (tagName === "Fragment") el = document.createDocumentFragment();
 
         if (opts !== null) {
-            if (opts?.style !== undefined) el.style = opts?.style;
-            if (opts?.className !== undefined) el.className = opts?.className;
-            if (opts?.id !== undefined) el.id = opts?.id;
-            if (opts?.onClick !== undefined) el.onclick = opts?.onClick;
-            if (opts?.src !== undefined) el.src = opts?.src;
-            if (opts?.href !== undefined) el.href = opts?.href;
+            const keys = Object.keys(opts);
+
+            for (const key of keys) {
+                if (opts[key] === undefined) continue;
+                el[key] = opts[key];
+            }
+
+            // if (opts?.style !== undefined) el.style = opts?.style;
+            // if (opts?.className !== undefined) el.className = opts?.className;
+            // if (opts?.id !== undefined) el.id = opts?.id;
+            // if (opts?.onClick !== undefined) el.onclick = opts?.onClick;
+            // if (opts?.src !== undefined) el.src = opts?.src;
+            // if (opts?.href !== undefined) el.href = opts?.href;
         }
 
-        if (children === null) return el;
+        // if (typeof children === "string")
+        //     el.appendChild(document.createTextNode(children));
 
-        if (typeof children === "string") {
-            el.appendChild(document.createTextNode(children));
-        }
+        // if (typeof children === "number" || typeof children === "boolean")
+        //     el.appendChild(document.createTextNode(children.toString()));
 
-        if (typeof children === "number" || typeof children === "boolean") {
-            el.appendChild(document.createTextNode(children.toString()));
-        }
-
-        if (children instanceof Array)
-            children.forEach((child) => {
-                if (child instanceof DocumentFragment) {
-                    el.appendChild(child);
-                    return;
-                }
-
-                if (child instanceof HTMLElement) {
-                    el.appendChild(child);
-                    return;
-                }
-                if (typeof child === "string") {
-                    el.appendChild(document.createTextNode(child));
-                    return;
-                }
-
-                if (typeof child === "number" || typeof child === "boolean") {
-                    el.appendChild(document.createTextNode(child.toString()));
-                    return;
-                }
-
-                // {array.map((el) => {return <div>{el}</div>})
-                if (child instanceof Array) {
-                    child.forEach((arrItem) => {
-                        if (arrItem instanceof HTMLElement) {
-                            el.appendChild(arrItem);
-                            return;
-                        }
-
-                        if (
-                            typeof arrItem === "string" ||
-                            typeof arrItem === "number" ||
-                            typeof arrItem === "boolean"
-                        ) {
-                            el.appendChild(document.createTextNode(arrItem));
-                            return;
-                        }
-                    });
-                }
-            });
+        // if (children instanceof DocumentFragment) el.appendChild(children);
+        this.createChilds(el, children);
 
         const finalEl = el as HTMLElement;
         // if (opts?.ref !== undefined) opts?.ref(finalEl);
@@ -95,10 +47,28 @@ export default class UI {
         return finalEl;
     }
 
+    private static createChilds(parent: HTMLElement, children: children) {
+        for (const child of children) {
+            if (typeof child === "string")
+                parent.appendChild(document.createTextNode(child));
+
+            if (typeof child === "number" || typeof child === "boolean")
+                parent.appendChild(document.createTextNode(child.toString()));
+
+            if (child instanceof DocumentFragment) parent.appendChild(child);
+            if (child instanceof HTMLElement) parent.appendChild(child);
+
+            // {array.map((el) => {return <div>{el}</div>})
+            if (child instanceof Array) {
+                this.createChilds(parent, child);
+            }
+        }
+    }
+
     public static Fragment = "Fragment";
 
     private static setId(el: HTMLElement, id: string) {
-        if (!(el instanceof DocumentFragment));
+        if (!(el instanceof DocumentFragment)) return;
 
         for (let i = 0; i < el.children.length; i++) {
             const child = el.children.item(i);
@@ -108,13 +78,73 @@ export default class UI {
         }
     }
 
+    // private static smartRerender(
+    //     parent: HTMLElement,
+    //     actualElement: HTMLElement,
+    //     newElement: HTMLElement,
+    //     recursive = false
+    // ) {
+    //     if (recursive) {
+    //         parent.childNodes.forEach((child, i) => {
+    //             const newChild = newElement.childNodes.item(i).cloneNode(true);
+
+    //             if (newChild === null || child == null) return;
+
+    //             console.log("child", child, newChild, "before equal");
+
+    //             if (child.isEqualNode(newChild)) return;
+
+    //             if (child.hasChildNodes())
+    //                 return this.smartRerender(
+    //                     parentChild,
+    //                     child,
+    //                     newChild,
+    //                     true
+    //                 );
+
+    //             console.log("rerender", child, newChild, "not equal");
+
+    //             parent.replaceChild(newChild, child);
+    //         });
+
+    //         return;
+    //     }
+
+    //     parent.childNodes.forEach((parentChild) => {
+    //         if (!parentChild.isEqualNode(actualElement)) return;
+
+    //         parentChild.childNodes.forEach((child, i) => {
+    //             const newChild = newElement.childNodes.item(i).cloneNode(true);
+
+    //             if (newChild === null || child == null) return;
+
+    //             console.log("child", child, newChild, "before equal");
+
+    //             if (child.isEqualNode(newChild)) return;
+
+    //             if (child.hasChildNodes())
+    //                 return this.smartRerender(
+    //                     parentChild,
+    //                     child,
+    //                     newChild,
+    //                     true
+    //                 );
+
+    //             console.log("rerender", child, newChild, "not equal");
+
+    //             parentChild.replaceChild(newChild, child);
+    //         });
+    //     });
+    // }
+
     private static handleFragmentRerender(
         parent: HTMLElement,
         newElement: HTMLElement,
-        actualElement: HTMLElement,
         id: string
     ) {
-        let firstFragmentChild: Element;
+        if (!(newElement instanceof DocumentFragment)) return;
+
+        let firstFragmentChild: Element | null = null;
 
         for (let i = 0; i < parent.children.length; i++) {
             const child = parent.children.item(i);
@@ -126,7 +156,7 @@ export default class UI {
             }
         }
 
-        if (firstFragmentChild === undefined) return;
+        if (firstFragmentChild === null) return;
 
         let nextSibling = firstFragmentChild.nextSibling;
         firstFragmentChild.remove();
@@ -145,8 +175,7 @@ export default class UI {
         let actualElement = elementFun();
         const id = Math.random().toString(36).substring(7);
 
-        if (actualElement instanceof DocumentFragment)
-            this.setId(actualElement, id);
+        this.setId(actualElement, id);
 
         parent.appendChild(actualElement);
 
@@ -155,18 +184,14 @@ export default class UI {
             (newElement: HTMLElement) => {
                 console.log("rerender", id);
 
-                if (!(newElement instanceof DocumentFragment)) {
-                    parent.replaceChild(newElement, actualElement);
-                    actualElement = newElement;
-                    return;
-                }
                 this.setId(newElement, id);
-                this.handleFragmentRerender(
-                    parent,
-                    newElement,
-                    actualElement,
-                    id
-                );
+                this.handleFragmentRerender(parent, newElement, id);
+
+                if (!(newElement instanceof DocumentFragment)) {
+                    // this.smartRerender(parent, actualElement, newElement);
+                    parent.replaceChild(newElement, actualElement);
+                }
+
                 actualElement = newElement;
             }
         );

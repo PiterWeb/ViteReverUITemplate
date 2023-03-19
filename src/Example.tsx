@@ -17,6 +17,10 @@ export default function ExampleStateFull() {
         setCount(count - 1);
     };
 
+    useEffect(ExampleStateFull, () => {
+        console.log("count changed to", count);
+    }, ['count'])
+
     return (
         <div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w-md mx-auto">
             <img
@@ -37,13 +41,13 @@ export default function ExampleStateFull() {
             <div className="flex justify-center items-center">
                 <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-4"
-                    onClick={decrementCount}
+                    onclick={decrementCount}
                 >
                     -
                 </button>
                 <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                    onClick={incrementCount}
+                    onclick={incrementCount}
                 >
                     +
                 </button>

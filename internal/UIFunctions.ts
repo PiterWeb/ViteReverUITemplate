@@ -11,6 +11,7 @@ export function useState<t>(el: () => HTMLElement, initvalue: t, id?: string) {
     } else value = el.prototype.state.getProp("state-" + id);
 
     const setState = (newValue: t) => {
+        el.prototype.state.setProp("last-state-" + id, value);
         value = newValue;
         el.prototype.state.setProp("state-" + id, newValue);
         el.prototype.state.setProp("el", el());
@@ -26,11 +27,18 @@ export function useEffect(
     dependencies?: string[]
 ) {
     if (dependencies === undefined && el.prototype.state === undefined) {
-        callback();
-        return;
+        return callback();
     }
 
     if (dependencies !== undefined && el.prototype.state !== undefined) {
-        callback();
+        dependencies.forEach((dep) => {
+            const value = el.prototype.state.getProp("state-" + dep);
+
+            const lastValue = el.prototype.state.getProp("last-state-" + dep);
+
+            if (value === lastValue) return;
+
+            callback();
+        });
     }
 }
