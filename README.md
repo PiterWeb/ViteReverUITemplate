@@ -32,7 +32,7 @@ This are the features that Vite provides:
 
 ### Examples:
 
-    - useState:
+- useState:
 
     ```tsx
     import UI from "@UI";
@@ -50,7 +50,7 @@ This are the features that Vite provides:
     }
     ```
 
-    - useEffect:
+- useEffect:
 
     ```tsx
     import UI from "@UI";
@@ -76,7 +76,7 @@ This are the features that Vite provides:
     }
     ```
 
-    - Example Counter Component:
+- Example Counter Component:
 
 ```tsx
 import UI from "@UI";
