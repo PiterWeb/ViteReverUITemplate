@@ -78,30 +78,30 @@ This are the features that Vite provides:
 
 - Example Counter Component:
 
-```tsx
-import UI from "@UI";
-import { useState, useEffect } from "@UIFunctions";
+    ```tsx
+    import UI from "@UI";
+    import { useState, useEffect } from "@UIFunctions";
 
-export default function StateFullApp() {
-    // UseEffect with no dependencies before useState will be called only on mount
-    useEffect(StateFullApp, () => {
-        console.log("Mounted");
-    });
+    export default function StateFullApp() {
+        // UseEffect with no dependencies before useState will be called only on mount
+        useEffect(StateFullApp, () => {
+            console.log("Mounted");
+        });
 
-    const [counter, setCounter] = useState(StateFullApp, 0, "counter");
-    // const [value, setValue] = useState(FunctionName, initialValue, 'id');
+        const [counter, setCounter] = useState(StateFullApp, 0, "counter");
+        // const [value, setValue] = useState(FunctionName, initialValue, 'id');
 
-    // UseEffect with dependencies will be called only when the dependencies change
-    useEffect(StateFullApp,() => {
-        console.log("Counter value changed to " + counter);
-    },["counter"]);
+        // UseEffect with dependencies will be called only when the dependencies change
+        useEffect(StateFullApp,() => {
+            console.log("Counter value changed to " + counter);
+        },["counter"]);
 
-    return (
-        <div>
-            <h1>Stateful Component</h1>
-            <p> Counter: {counter === 0 ? "You didn't click" : counter} </p>
-            <button onclick={() => setCounter(counter + 1)}>Increment</button>
-        </div>
-    );
-}
-```
+        return (
+            <div>
+                <h1>Stateful Component</h1>
+                <p> Counter: {counter === 0 ? "You didn't click" : counter} </p>
+                <button onclick={() => setCounter(counter + 1)}>Increment</button>
+            </div>
+        );
+    }
+    ```
