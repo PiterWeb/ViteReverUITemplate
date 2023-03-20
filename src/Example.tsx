@@ -1,5 +1,4 @@
-import UI from "@UI";
-import { useState, useEffect } from "@UIFunctions";
+import { useEffect, useState } from "@UIFunctions";
 import vitelogo from "/vite.svg";
 
 export default function ExampleStateFull() {
@@ -22,7 +21,7 @@ export default function ExampleStateFull() {
     }, ['count'])
 
     return (
-        <div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w-md mx-auto">
+        <div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w h-screen mx-auto">
             <img
                 className="`w-16 h-16 mb-4`"
                 src={vitelogo}

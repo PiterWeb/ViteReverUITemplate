@@ -25,3 +25,4 @@ dist-ssr
 
 src/FragmentTest.tsx
 src/DuplicatedExample.tsx
+src/components/ExampleCounter.tsx

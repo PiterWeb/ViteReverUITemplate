@@ -3,9 +3,10 @@ import { defineConfig } from "vite";
 export default defineConfig({
     /* Funcionaba solo el inject */
     esbuild: {
-        // jsxInject: `import UI from "@UI";\n import UIElement from "@UIElement";`,
+        jsxInject: `import UI from "@UI";`,
         jsxFactory: "UI.createElement",
         jsxFragment: "UI.Fragment",
+        jsxImportSource: "@UI",
     },
     resolve: {
         alias: {

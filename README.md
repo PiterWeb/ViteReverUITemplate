@@ -9,16 +9,16 @@
 #### Current functionality:
 
 -   [x] JSX Elements (html & js evaluated)
--   [x] useState
+-   [x] useState ♻
 -   [x] useEffect (state changes & mounted)
 -   [x] Fragments (<> </>)
--   [x] Conditional Rendering (ternary operator)
--   [x] List Rendering (array.map)
--   [x] Event Handling (all events in lowercase)
--   [x] TailwindCSS
--   [ ] Reusable Components on JSX
+-   [x] Conditional Rendering (ternary operator) ❓
+-   [x] List Rendering (array.map) 📜
+-   [x] Event Handling (all events in lowercase) <kbd>Click</kbd> <kbd>Key</kbd> ...
+-   [x] TailwindCSS ✨
+-   [x] Reusable Components on JSX (But cannot be stateful) 📦
 -   [ ] Same Statefull Component on the same parent
--   [ ] Selective Re-rendering
+-   [ ] Selective(Smart) Re-rendering 🧠
 
 **The project is built on top of Vite**
 

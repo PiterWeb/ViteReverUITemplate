@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 interface createElementOptions {
     [key: string]: any;
 }
@@ -8,10 +9,18 @@ type children =
     | (string | number | boolean | HTMLElement)[][];
 export default class UI {
     public static createElement(
-        tagName: string,
+        tagName: string | (() => HTMLElement),
         opts?: createElementOptions,
         ...children: children
     ): HTMLElement {
+        
+        if (typeof tagName === "function") {
+            const el = tagName();
+            this.createChilds(el, children);
+            return el;
+
+        }
+
         let el = document.createElement(tagName);
 
         if (tagName === "Fragment") el = document.createDocumentFragment();
@@ -23,28 +32,11 @@ export default class UI {
                 if (opts[key] === undefined) continue;
                 el[key] = opts[key];
             }
-
-            // if (opts?.style !== undefined) el.style = opts?.style;
-            // if (opts?.className !== undefined) el.className = opts?.className;
-            // if (opts?.id !== undefined) el.id = opts?.id;
-            // if (opts?.onClick !== undefined) el.onclick = opts?.onClick;
-            // if (opts?.src !== undefined) el.src = opts?.src;
-            // if (opts?.href !== undefined) el.href = opts?.href;
         }
 
-        // if (typeof children === "string")
-        //     el.appendChild(document.createTextNode(children));
-
-        // if (typeof children === "number" || typeof children === "boolean")
-        //     el.appendChild(document.createTextNode(children.toString()));
-
-        // if (children instanceof DocumentFragment) el.appendChild(children);
         this.createChilds(el, children);
 
-        const finalEl = el as HTMLElement;
-        // if (opts?.ref !== undefined) opts?.ref(finalEl);
-
-        return finalEl;
+        return el;
     }
 
     private static createChilds(parent: HTMLElement, children: children) {
@@ -55,8 +47,13 @@ export default class UI {
             if (typeof child === "number" || typeof child === "boolean")
                 parent.appendChild(document.createTextNode(child.toString()));
 
-            if (child instanceof DocumentFragment) parent.appendChild(child);
-            if (child instanceof HTMLElement) parent.appendChild(child);
+            if (child instanceof HTMLElement) {
+                parent.appendChild(child);
+            }
+
+            if (child instanceof DocumentFragment) {
+                parent.appendChild(child);
+            }
 
             // {array.map((el) => {return <div>{el}</div>})
             if (child instanceof Array) {
@@ -178,6 +175,8 @@ export default class UI {
         this.setId(actualElement, id);
 
         parent.appendChild(actualElement);
+
+        if (elementFun.prototype.state === undefined) return;
 
         elementFun.prototype.state.addListener(
             "el",
