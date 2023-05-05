@@ -30,6 +30,14 @@ This are the features that Vite provides:
 -   HMR (Hot Module Replacement)
 -   Support for CSS Preprocessors
 
+### Try it yourself:
+
+#### Steps:
+
+- Clone the repository: ```git clone https://github.com/PiterWeb/ReactiveUI.git```
+- Open the folder & install the dependencies: ```npm install```
+- Run the development enviroment: ```npm run dev```
+
 ### Examples:
 
 - useState:
