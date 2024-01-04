@@ -1,4 +1,4 @@
-import { useEffect, useState } from "@UIFunctions";
+import { useEffect, useSignal } from "@UIFunctions";
 import vitelogo from "/vite.svg";
 
 export default function ExampleStateFull() {
@@ -6,26 +6,28 @@ export default function ExampleStateFull() {
         console.log("ExampleStateFull mounted");
     });
 
-    const [count, setCount] = useState(ExampleStateFull, 0, "count");
+    const count = useSignal(ExampleStateFull, 0, "count");
 
     const incrementCount = () => {
-        setCount(count + 1);
+        count.value++;
     };
 
     const decrementCount = () => {
-        setCount(count - 1);
+        count.value--;
     };
 
     useEffect(ExampleStateFull, () => {
-        console.log("count changed to", count);
-    }, ['count'])
+        console.log("count changed to", count.value);
+    }, [count])
 
     return (
         <div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w h-screen mx-auto">
             <img
-                className="`w-16 h-16 mb-4`"
+                className="w-16 h-16 mb-4"
                 src={vitelogo}
                 alt="Vite.js Logo"
+                width="384"
+                height="384"
             />
             <span>
                 Powered by {""}
@@ -35,7 +37,7 @@ export default function ExampleStateFull() {
             </span>
             <h1 className="text-3xl font-bold mb-8">ReactiveUI</h1>
             <div className="flex justify-center items-center bg-white rounded-full h-16 w-16 mb-8">
-                <p className="text-2xl font-bold">{count}</p>
+                <p className="text-2xl font-bold">{count.value}</p>
             </div>
             <div className="flex justify-center items-center">
                 <button

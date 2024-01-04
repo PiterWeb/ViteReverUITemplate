@@ -180,8 +180,8 @@ export default class UI {
 
         elementFun.prototype.state.addListener(
             "el",
-            (newElement: HTMLElement) => {
-                console.log("rerender", id);
+            (newElement: () =>HTMLElement) => {
+                // console.log("rerender", id);
 
                 this.setId(newElement, id);
                 this.handleFragmentRerender(parent, newElement, id);
