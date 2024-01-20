@@ -20,7 +20,7 @@
 -   [x] TailwindCSS ✨
 -   [x] Reusable Components on JSX (But cannot be stateful) 📦
 -   [ ] Same Statefull Component on the same parent
--   [ ] Selective(Smart) Re-rendering 🧠
+-   [x] Selective(Smart) Re-rendering 🧠
 
 **The project is built on top of Vite**
 
