@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 interface createElementOptions {
     [key: string]: any;
 }
@@ -13,24 +11,33 @@ export default class UI {
         opts?: createElementOptions,
         ...children: children
     ): HTMLElement {
-        
         if (typeof tagName === "function") {
             const el = tagName();
             this.createChilds(el, children);
             return el;
-
         }
 
         let el = document.createElement(tagName);
 
-        if (tagName === "Fragment") el = document.createDocumentFragment();
+        if (tagName === "Fragment")
+            el = document.createDocumentFragment() as unknown as HTMLElement;
 
-        if (opts !== null) {
+        if (opts) {
             const keys = Object.keys(opts);
 
             for (const key of keys) {
                 if (opts[key] === undefined) continue;
+                // @ts-ignore
                 el[key] = opts[key];
+
+                if (
+                    el.getAttribute(key) != opts[key] &&
+                    !key.startsWith("on") &&
+                    key != "className"
+                )
+                    el.setAttribute(key, opts[key]);
+
+                // if (key.startsWith("data-")) el.setAttribute(key, opts[key]);
             }
         }
 
@@ -65,74 +72,81 @@ export default class UI {
     public static Fragment = "Fragment";
 
     private static setId(el: HTMLElement, id: string) {
-        if (!(el instanceof DocumentFragment)) return;
+        // if (!(el instanceof DocumentFragment)) return;
+        el.setAttribute("data-fr-id", id);
 
         for (let i = 0; i < el.children.length; i++) {
             const child = el.children.item(i);
 
             if (child === null) continue;
-            child.setAttribute("data-fr-id", id);
+
+            if (child.hasChildNodes()) this.setId(child as HTMLElement, id);
         }
     }
 
-    // private static smartRerender(
-    //     parent: HTMLElement,
-    //     actualElement: HTMLElement,
-    //     newElement: HTMLElement,
-    //     recursive = false
-    // ) {
-    //     if (recursive) {
-    //         parent.childNodes.forEach((child, i) => {
-    //             const newChild = newElement.childNodes.item(i).cloneNode(true);
+    private static smartRerender(
+        parent: HTMLElement,
+        actualElement: HTMLElement,
+        newElement: HTMLElement
+    ) {
+        // Search actual element in parent, then search for changes in itself and in children recursively
 
-    //             if (newChild === null || child == null) return;
+        // If not found, return
 
-    //             console.log("child", child, newChild, "before equal");
+        // If found, replace with new element, using replaceWith function
 
-    //             if (child.isEqualNode(newChild)) return;
+        for (let i = 0; i < parent.children.length; i++) {
+            const child = parent.children.item(i);
+            if (child === null) continue;
+            if (
+                child.getAttribute("data-fr-id") ===
+                    actualElement.getAttribute("data-fr-id") &&
+                child.tagName === newElement.tagName &&
+                // @ts-ignore
+                child["uid"] === newElement["uid"] &&
+                child.getAttribute("key") === newElement.getAttribute("key")
+            ) {
+                for (let j = 0; j < newElement.attributes.length; j++) {
+                    const newChildAttribute = newElement.attributes.item(j);
 
-    //             if (child.hasChildNodes())
-    //                 return this.smartRerender(
-    //                     parentChild,
-    //                     child,
-    //                     newChild,
-    //                     true
-    //                 );
+                    if (newChildAttribute === null) continue;
 
-    //             console.log("rerender", child, newChild, "not equal");
+                    if (!newChildAttribute.name.startsWith("data-rui-"))
+                        continue;
 
-    //             parent.replaceChild(newChild, child);
-    //         });
+                    for (let k = 0; k < child.attributes.length; k++) {
+                        const childAttribute = child.attributes.item(k);
 
-    //         return;
-    //     }
+                        if (childAttribute === null) continue;
 
-    //     parent.childNodes.forEach((parentChild) => {
-    //         if (!parentChild.isEqualNode(actualElement)) return;
+                        if (childAttribute.name === newChildAttribute.name) {
+                            if (
+                                childAttribute.value !== newChildAttribute.value
+                            ) {
+                                child.replaceWith(newElement);
+                                return;
+                            }
+                        }
+                    }
 
-    //         parentChild.childNodes.forEach((child, i) => {
-    //             const newChild = newElement.childNodes.item(i).cloneNode(true);
+                    child.replaceWith(newElement);
+                }
 
-    //             if (newChild === null || child == null) return;
+                // Search for changes in children recursively
 
-    //             console.log("child", child, newChild, "before equal");
-
-    //             if (child.isEqualNode(newChild)) return;
-
-    //             if (child.hasChildNodes())
-    //                 return this.smartRerender(
-    //                     parentChild,
-    //                     child,
-    //                     newChild,
-    //                     true
-    //                 );
-
-    //             console.log("rerender", child, newChild, "not equal");
-
-    //             parentChild.replaceChild(newChild, child);
-    //         });
-    //     });
-    // }
+                for (let j = 0; j < child.children.length; j++) {
+                    const childChild = child.children.item(j);
+                    const newChildChild = newElement.children.item(j);
+                    if (childChild === null || newChildChild === null) continue;
+                    this.smartRerender(
+                        child as HTMLElement,
+                        childChild as HTMLElement,
+                        newChildChild as HTMLElement
+                    );
+                }
+            }
+        }
+    }
 
     private static handleFragmentRerender(
         parent: HTMLElement,
@@ -170,7 +184,7 @@ export default class UI {
         parent: HTMLElement
     ) {
         let actualElement = elementFun();
-        const id = Math.random().toString(36).substring(7);
+        const id = generateId();
 
         this.setId(actualElement, id);
 
@@ -180,17 +194,18 @@ export default class UI {
 
         elementFun.prototype.state.addListener(
             "el",
-            (newElement: () =>HTMLElement) => {
-                // console.log("rerender", id);
-
+            (newElement: () => HTMLElement) => {
+                //@ts-ignore
                 this.setId(newElement, id);
+                //@ts-ignore
                 this.handleFragmentRerender(parent, newElement, id);
 
                 if (!(newElement instanceof DocumentFragment)) {
-                    // this.smartRerender(parent, actualElement, newElement);
-                    parent.replaceChild(newElement, actualElement);
+                    //@ts-ignore
+                    this.smartRerender(parent, actualElement, newElement);
                 }
 
+                //@ts-ignore
                 actualElement = newElement;
             }
         );
@@ -202,4 +217,13 @@ export default class UI {
     ) {
         parent.appendChild(elFun());
     }
+}
+
+const usedIds: string[] = [];
+
+function generateId() {
+    let id = Math.random().toString(36).substring(7);
+    while (usedIds.includes(id)) id = Math.random().toString(36).substring(7);
+    usedIds.push(id);
+    return id;
 }

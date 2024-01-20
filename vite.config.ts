@@ -1,9 +1,9 @@
 import { defineConfig } from "vite";
+import UIPlugin from "./internal/vite/plugin"
 
 export default defineConfig({
-    /* Funcionaba solo el inject */
     esbuild: {
-        jsxInject: `import UI from "@UI";`,
+        jsxInject: `import UI from "@UI";\n`,
         jsxFactory: "UI.createElement",
         jsxFragment: "UI.Fragment",
         jsxImportSource: "@UI",
@@ -13,18 +13,10 @@ export default defineConfig({
             "@UI": "/internal/UI.ts",
             "@UIElements": "/internal/UIElements.tsx",
             "@UIFunctions": "/internal/UIFunctions.ts",
+            "@UIFunctions_internal": "/internal/UIFunctions_internal.ts",
         },
     },
     plugins: [
-        {
-            name: "ui-proccessor",
-            transform(code, id) {
-                if (!id.includes("tsx") && !id.includes("jsx")) return;
-                // console.log(code);
-
-                
-
-            },
-        },
+        UIPlugin
     ],
 });

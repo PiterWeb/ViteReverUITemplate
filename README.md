@@ -34,81 +34,73 @@ This are the features that Vite provides:
 
 #### Steps:
 
-- Clone the repository: ```git clone https://github.com/PiterWeb/ReactiveUI.git```
-- Open the folder & install the dependencies: ```npm install```
-- Run the development enviroment: ```npm run dev```
+-   Clone the repository: `git clone https://github.com/PiterWeb/ReactiveUI.git`
+-   Open the folder & install the dependencies: `npm install`
+-   Run the development enviroment: `npm run dev`
 
 ### Examples:
 
-- useState:
+-   useState:
 
     ```tsx
-    import UI from "@UI";
     import { useState } from "@UIFunctions";
 
     export default function StateFullApp() {
+        const mySignal = useSignal("initValue");
 
-        const [value, setValue] = useState(StateFullApp,"initValue", 'id');
-
-        return (
-            <div>
-                ...
-            </div>
-        );
+        return <div>...</div>;
     }
     ```
 
-- useEffect:
+-   useEffect:
 
     ```tsx
-    import UI from "@UI";
     import { useEffect } from "@UIFunctions";
 
     export default function StateFullApp() {
-
-        useEffect(StateFullApp, () => {
+        useEffect(() => {
             console.log("Mounted");
         });
 
-        const [counter, setCounter] = useState(StateFullApp,0, 'counter');
+        const counter = useSignal(0);
 
-        useEffect(StateFullApp,() => {
-            console.log("Counter value changed to " + counter);
-        },["counter"]);
+        useEffect(() => {
+            console.log("Counter value changed to " + counter.value);
+        }, [counter]);
 
-        return (
-            <div>
-                ...
-            </div>
-        );
+        return <div>...</div>;
     }
     ```
 
-- Example Counter Component:
+-   Example Counter Component:
 
     ```tsx
-    import UI from "@UI";
-    import { useState, useEffect } from "@UIFunctions";
+    import { useSignal, useEffect } from "@UIFunctions";
 
     export default function StateFullApp() {
         // UseEffect with no dependencies before useState will be called only on mount
-        useEffect(StateFullApp, () => {
+        useEffect(() => {
             console.log("Mounted");
         });
 
-        const [counter, setCounter] = useState(StateFullApp, 0, "counter");
-        // const [value, setValue] = useState(FunctionName, initialValue, 'id');
+        const counter = useSignal(0);
+        // const signal = useSignal(initialValue);
 
         // UseEffect with dependencies will be called only when the dependencies change
-        useEffect(StateFullApp,() => {
-            console.log("Counter value changed to " + counter);
-        },["counter"]);
+        useEffect(() => {
+            console.log("Counter value changed to " + counter.value);
+        }, [counter]);
 
         return (
             <div>
                 <h1>Stateful Component</h1>
-                <p> Counter: {counter === 0 ? "You didn't click" : counter} </p>
-                <button onclick={() => setCounter(counter + 1)}>Increment</button>
+                <p>
+                    {" "}
+                    Counter: {counter.value === 0
+                        ? "You didn't click"
+                        : counter.value}{" "}
+                </p>
+                <button onclick={() => counter.value++}>Increment</button>
             </div>
         );
     }

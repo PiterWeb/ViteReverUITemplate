@@ -1,12 +1,12 @@
 import { useEffect, useSignal } from "@UIFunctions";
 import vitelogo from "/vite.svg";
 
-export default function ExampleStateFull() {
-    useEffect(ExampleStateFull, () => {
+export default function Counter() {
+    useEffect(() => {
         console.log("ExampleStateFull mounted");
     });
 
-    const count = useSignal(ExampleStateFull, 0, "count");
+    const count = useSignal(0);
 
     const incrementCount = () => {
         count.value++;
@@ -16,8 +16,8 @@ export default function ExampleStateFull() {
         count.value--;
     };
 
-    useEffect(ExampleStateFull, () => {
-        console.log("count changed to", count.value);
+    useEffect(() => {
+        console.log(`${count.id} changed to`, count.value);
     }, [count])
 
     return (
@@ -37,10 +37,13 @@ export default function ExampleStateFull() {
             </span>
             <h1 className="text-3xl font-bold mb-8">ReactiveUI</h1>
             <div className="flex justify-center items-center bg-white rounded-full h-16 w-16 mb-8">
-                <p className="text-2xl font-bold">{count.value}</p>
+                {
+                    <p className="text-2xl font-bold">{count.value}</p>
+                }
             </div>
             <div className="flex justify-center items-center">
                 <button
+                    
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-4"
                     onclick={decrementCount}
                 >
