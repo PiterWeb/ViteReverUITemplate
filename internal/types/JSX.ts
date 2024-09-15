@@ -7,10 +7,12 @@ declare global {
 		// type ComponentElement = () => HTMLElement;
 
 		// interface ElementClass extends HTMLElement {}
-		interface UIElement extends ElementChildrenAttribute, Partial<GlobalEventHandlers> {
-			[key: string]: any;
-			className?: string;
-		}
+		type UIElement<T extends keyof HTMLElementTagNameMap> =
+			ElementChildrenAttribute &
+				Partial<GlobalEventHandlers> &
+				Partial<Omit<HTMLElementTagNameMap[T], "children">> & {
+					[key: string]: any;
+				};
 		interface ElementChildrenAttribute {
 			children?:
 				| JSX.IntrinsicElements[keyof JSX.IntrinsicElements]
@@ -18,15 +20,9 @@ declare global {
 				| number;
 		}
 		type IntrinsicElements = {
-			[elemName in
-				| keyof HTMLElementTagNameMap
-				| keyof customElements]: UIElement;
+			[elemName in keyof HTMLElementTagNameMap]: UIElement<
+				keyof HTMLElementTagNameMap
+			>;
 		};
 	}
 }
-
-interface customElements {
-	fragment: any;
-}
-
-
