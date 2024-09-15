@@ -9,30 +9,6 @@ export interface Signal<t> {
 	readonly lastValueStringified: string;
 }
 
-// state (cambio) -> listener accion en la funcion -> rerender
-// El methodo UI.HandleStateFull() es el encargado de hacer el rerender
-
-// export function useState<t>(el: () => HTMLElement, initvalue: t, id: string) {
-//     let value = initvalue;
-
-//     let state = el.prototype.state as StateStore;
-
-//     if (state === undefined) {
-//         el.prototype.state = new StateStore();
-//         state = el.prototype.state as StateStore;
-//         state.setProp("state-" + id, value);
-//     } else value = state.getProp("state-" + id);
-
-//     const setState = (newValue: t) => {
-//         state.setProp("last-state-" + id, value);
-//         value = newValue;
-//         state.setProp("state-" + id, newValue);
-//         state.setProp("el", el());
-//     };
-
-//     return [value, setState] as [t, (newValue: t) => void];
-// }
-
 export function useSignal<T>(
 	el: (() => HTMLElement) & ElProto,
 	initvalue: T,
@@ -41,32 +17,37 @@ export function useSignal<T>(
 	let value = initvalue;
 	let state = el.prototype.state;
 
+	const keyState = `state-${id}`;
+	const lastKeyState = `last-${keyState}`;
+
 	if (state === undefined) {
 		el.prototype.state = new StateStore();
 		state = el.prototype.state;
-		state.setProp("state-" + id, value);
-	} else if (state.getProp("state-" + id) === undefined) {
-		state.setProp("state-" + id, value);
-	} else value = state.getProp("state-" + id);
+		state.setProp(keyState, value);
+	} else if (state.getProp(keyState) === undefined) {
+		state.setProp(keyState, value);
+	} else value = state.getProp(keyState);
 
 	const setState = (newValue: T) => {
-		state.setProp("last-state-" + id, value);
-		value = newValue;
-		state.setProp("state-" + id, newValue);
+		state.setProp(lastKeyState, value);
+		state.setProp(keyState, newValue);
+
+		// Trigger re-render
 		state.setProp("el", el());
 	};
 
 	return {
 		get value() {
-			return value;
+			return state.getProp<T>(keyState);
 		},
 		get lastValue() {
-			return state.getProp<T>("last-state-" + id);
+			return state.getProp<T>(lastKeyState);
 		},
 		get lastValueStringified() {
 			return JSON.stringify(this.lastValue);
 		},
 		set value(newValue: T) {
+			const value = this.value
 			if (newValue === value || deepEqual(newValue, value)) return;
 			setState(newValue);
 		},
