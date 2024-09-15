@@ -9,7 +9,6 @@ declare global {
 		// interface ElementClass extends HTMLElement {}
 		type UIElement<T extends keyof HTMLElementTagNameMap> =
 			ElementChildrenAttribute &
-				Partial<GlobalEventHandlers> &
 				Partial<Omit<HTMLElementTagNameMap[T], "children">> & {
 					[key: string]: any;
 				};
