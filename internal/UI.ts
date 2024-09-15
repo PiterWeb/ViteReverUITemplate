@@ -103,7 +103,7 @@ export default class UI {
 
         // If found, replace with new element, using replaceWith function
 
-        console.log(actualElement,newElement)
+        // console.log(actualElement,newElement)
 
         for (let i = 0; i < parent.children.length; i++) {
             const child = parent.children.item(i);
