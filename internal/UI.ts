@@ -14,6 +14,11 @@ type children =
     | (string | number | boolean | HTMLElement)[]
     | (string | number | boolean | HTMLElement)[][];
 export default class UI {
+
+    public static renderString(elementFun: () => HTMLElement): string {
+        return elementFun().outerHTML
+    }
+
     public static createElement(
         tagName: string | (() => HTMLElement),
         opts?: createElementOptions,
