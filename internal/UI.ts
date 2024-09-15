@@ -1,5 +1,13 @@
+import StateStore from "./StateStore";
+
 interface createElementOptions {
     [key: string]: any;
+}
+
+export class ElProto {
+	prototype = {
+		state: new StateStore(),
+	};
 }
 
 type children =
@@ -95,6 +103,8 @@ export default class UI {
 
         // If found, replace with new element, using replaceWith function
 
+        console.log(actualElement,newElement)
+
         for (let i = 0; i < parent.children.length; i++) {
             const child = parent.children.item(i);
             if (child === null) continue;
@@ -144,6 +154,8 @@ export default class UI {
                         newChildChild as HTMLElement
                     );
                 }
+            } else if (child.hasChildNodes()) {
+                this.smartRerender(child as HTMLElement, actualElement, newElement);
             }
         }
     }
