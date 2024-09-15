@@ -17,7 +17,7 @@ export default function Counter() {
     };
 
     useEffect(() => {
-        console.log(`${count.id} changed to`, count.value);
+        console.log(`Count changed to`, count.value);
     }, [count])
 
     return (
