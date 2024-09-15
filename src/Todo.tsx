@@ -1,4 +1,4 @@
-import { useSignal } from "@UIFunctions";
+import { useEffect, useSignal } from "@UIFunctions";
 
 interface TodoItem {
 	content: string;
@@ -18,18 +18,21 @@ export default function Todo() {
 			...todos.value,
 			{ content: data.get("content") as string, completed: "❌" },
 		];
+
 	}
 
-	function deleteTodo(event: Event) {
-		const button = event.target as HTMLButtonElement;
-
-		const index = parseInt(button.getAttribute("key") ?? "");
-
-		todos.value = todos.value.filter((_, i) => i !== index);
+	function deleteTodo(index:number) {
+		todos.value = [...todos.value.filter((_, i) => i !== index)];
 	}
+
+	useEffect(() => {
+
+		console.table(todos.value)
+
+	}, [todos])
 
 	return (
-		<fragment>
+		<div>
 			<style>
 				{`
                     * {
@@ -43,7 +46,7 @@ export default function Todo() {
 				<ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
 					{todos.value.map((todo, i) => (
 						<li className="flex items-center" key={i}>
-							<button onclick={deleteTodo}>
+							<button onclick={() => deleteTodo(i)}>
 								{todo.completed}
 							</button>
 							{todo.content}
@@ -71,6 +74,6 @@ export default function Todo() {
 					/>
 				</form>
 			</div>
-		</fragment>
+		</div>
 	);
 }
