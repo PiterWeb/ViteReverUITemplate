@@ -1,15 +1,11 @@
-// export function useState<t>(initvalue: t) {
-//     return {} as [t, (newValue: t) => void];
-// }
-
 interface Signal<t> {
 	value: t;
 }
 
-export function useSignal<T>(initvalue: T) {
+export function useSignal<T>(_initvalue: T) {
 	return {} as Signal<T>;
 }
 export function useEffect(
-	callback: () => void,
-	dependencies?: Signal<unknown>[] | string[]
+	_callback: () => void,
+	_dependencies?: Signal<unknown>[] | string[]
 ) {}
