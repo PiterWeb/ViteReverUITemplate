@@ -2,19 +2,25 @@ export {}; // This file needs to be a module
 
 declare global {
 	namespace JSX {
-		interface Element extends HTMLElement {
-            props: ElementAttributesProperty
-        }
-		interface ElementClass extends HTMLElement {}
-		interface ElementAttributesProperty {
-                [key: string]: any
-                className: string
+		type Element = HTMLElement;
+
+		// type ComponentElement = () => HTMLElement;
+
+		// interface ElementClass extends HTMLElement {}
+		interface UIElement extends ElementChildrenAttribute, Partial<GlobalEventHandlers> {
+			[key: string]: any;
+			className?: string;
 		}
 		interface ElementChildrenAttribute {
-			children: any
+			children?:
+				| JSX.IntrinsicElements[keyof JSX.IntrinsicElements]
+				| string
+				| number;
 		}
 		type IntrinsicElements = {
-			[elemName in (keyof HTMLElementTagNameMap | keyof customElements)]: any;
+			[elemName in
+				| keyof HTMLElementTagNameMap
+				| keyof customElements]: UIElement;
 		};
 	}
 }
@@ -22,3 +28,5 @@ declare global {
 interface customElements {
 	fragment: any;
 }
+
+
