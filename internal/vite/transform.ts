@@ -30,7 +30,7 @@ export function replaceSignalHTMLElement(code: string) {
 	// match.forEach((createElement) => {
 	//     const newElement = createElement.replaceAll(
 	//         regex,
-	//         `UI.createElement($1, {["data-rui-"+$3.id]: $3.lastValue, "uid": "${generateId()}"}, $2)`
+	//         `UI.createElement($1, {["data-rui-"+$3.id]: $3.lastValue(), "uid": "${generateId()}"}, $2)`
 	//     );
 
 	//     newCode = newCode.replace(createElement, newElement);

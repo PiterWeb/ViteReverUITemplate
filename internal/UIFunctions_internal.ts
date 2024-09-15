@@ -5,7 +5,7 @@ import { ElProto } from "@UI";
 export interface Signal<t> {
 	value: t;
 	readonly id: string;
-	readonly lastValue: t;
+	lastValue:() => t;
 	readonly lastValueStringified: string;
 }
 
@@ -38,13 +38,13 @@ export function useSignal<T>(
 
 	return {
 		get value() {
-			return state.getProp<T>(keyState);
+			return state.getProp(keyState);
 		},
-		get lastValue() {
-			return state.getProp<T>(lastKeyState);
+		lastValue() {
+			return state.getProp(lastKeyState);
 		},
 		get lastValueStringified() {
-			return JSON.stringify(this.lastValue);
+			return JSON.stringify(this.lastValue());
 		},
 		set value(newValue: T) {
 			const value = this.value
