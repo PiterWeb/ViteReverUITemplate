@@ -18,26 +18,28 @@ export default function Todo() {
 			...todos.value,
 			{ content: data.get("content") as string, completed: "❌" },
 		];
-
 	}
 
-	function deleteTodo(index:number) {
+	function deleteTodo(index: number) {
 		todos.value = [...todos.value.filter((_, i) => i !== index)];
 	}
 
 	useEffect(() => {
-
-		console.table(todos.value)
-
-	}, [todos])
+		console.table(todos.value);
+	}, [todos]);
 
 	return (
 		<div>
-			<style>
+			<style jsx>
 				{`
-                    * {
-                        color: red;
-                    }
+                    {/* * {
+						color: blue;
+						background-color: red;
+					}
+
+					ul {
+						background-color:blue
+					} */}
                 `}
 			</style>
 
