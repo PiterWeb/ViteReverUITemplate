@@ -68,7 +68,7 @@ export function useEffect(
 	dependencies?: Signal<unknown>[] | string[]
 ) {
 
-	let elId =  el.prototype.__id__.repeat(1);
+	let elId =  el.prototype.__id__;
 
 	if (dependencies === undefined && el.prototype.__state__ === undefined) {
 		return callback();
