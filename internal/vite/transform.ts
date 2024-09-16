@@ -1,4 +1,5 @@
-const usedIds: string[] = [];
+import { UIGenerateId } from "../utils/id";
+
 
 export function replaceImport(code: string) {
 	const regex = /import\s*([^+]*)\s*from\s*"@UIFunctions"/g;
@@ -14,7 +15,7 @@ export function replaceSignalHTMLElement(code: string) {
 
 	let newCode = code.replaceAll(
 		regex,
-		`UI.createElement($1, {$2, ["data-rui-"+$3.id]: $3.lastValueStringified, "uid": "${generateId()}"}, $3.value`
+		`UI.createElement($1, {$2, ["data-rui-"+$3.id]: $3.lastValueStringified, "uid": "${UIGenerateId()}"}, $3.value`
 	);
 
 	// Replace the createElement with the new one (if has no parameters)
@@ -39,10 +40,10 @@ export function replaceSignalHTMLElement(code: string) {
 	return newCode;
 }
 
-export function replaceFunctions(code: string, name: string) {
+export function replaceSpecialFunctions(code: string, name: string) {
 	let newCode = code;
 
-	const id = generateId();
+	const id = UIGenerateId();
 
 	// useSignal
 
@@ -70,9 +71,3 @@ export function getJSXElementName(code: string) {
 	return match[1];
 }
 
-export function generateId() {
-	let id = Math.random().toString(36).substring(7);
-	while (usedIds.includes(id)) id = Math.random().toString(36).substring(7);
-	usedIds.push(id);
-	return id;
-}

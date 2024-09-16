@@ -1,5 +1,5 @@
 import type { PluginOption } from "vite";
-import { getJSXElementName, replaceFunctions, replaceImport, replaceSignalHTMLElement } from "./transform";
+import { getJSXElementName, replaceSpecialFunctions, replaceImport, replaceSignalHTMLElement } from "./transform";
 import configHandler from "./config";
 
 export default {
@@ -9,7 +9,7 @@ export default {
 
 		const name = getJSXElementName(code);
 
-		let newCode = replaceFunctions(code, name);
+		let newCode = replaceSpecialFunctions(code, name);
 
 		newCode = replaceImport(newCode);
 
