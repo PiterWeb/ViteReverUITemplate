@@ -45,7 +45,7 @@ export default function Todo() {
 				`}
 			</style>
 
-			<div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w h-screen">
+			<div className="flex flex-col items-center rounded-lg p-6 max-w">
 				<h2 className="text-3xl font-bold mb-8">Todo</h2>
 
 				<form
