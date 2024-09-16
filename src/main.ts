@@ -7,7 +7,7 @@ $UI(Counter, document.getElementById("app") ?? document.body);
 
 $UI(Todo, document.getElementById("app") ?? document.body);
 
-$UI(Counter, document.getElementById("app") ?? document.body)
+// $UI(Counter, document.getElementById("app") ?? document.body)
 
 // UI.HandleStateFull(
 //     FragmentTest,
