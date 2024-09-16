@@ -1,12 +1,13 @@
 import "./index.css";
-import UI from "@UI";
+import {$UI} from "@UI";
 import Counter from "./Counter";
 import Todo from "./Todo";
 
-UI.HandleStateFull(Counter, document.getElementById("app") ?? document.body);
+$UI(Counter, document.getElementById("app") ?? document.body);
 
-UI.HandleStateFull(Todo, document.getElementById("app") ?? document.body);
+$UI(Todo, document.getElementById("app") ?? document.body);
 
+$UI(Counter, document.getElementById("app") ?? document.body)
 
 // UI.HandleStateFull(
 //     FragmentTest,
