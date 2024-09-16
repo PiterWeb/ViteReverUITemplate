@@ -11,9 +11,10 @@
 #### Current functionality:
 
 -   [x] JSX Elements (html & js evaluated)
--   [x] useState ♻
+-   [x] useSignal ♻
+-   [x] Good intellisense
 -   [x] useEffect (state changes & mounted)
--   [x] Fragments (<> </>)
+-   [ ] Fragments (<> </>)
 -   [x] Conditional Rendering (ternary operator) ❓
 -   [x] List Rendering (array.map) 📜
 -   [x] Event Handling (all events in lowercase) <kbd>Click</kbd> <kbd>Key</kbd> ...
@@ -42,10 +43,10 @@ This are the features that Vite provides:
 
 ### Examples:
 
--   useState:
+-   useSignal:
 
     ```tsx
-    import { useState } from "@UIFunctions";
+    import { useSignal } from "@UIFunctions";
 
     export default function StateFullApp() {
         const mySignal = useSignal("initValue");
