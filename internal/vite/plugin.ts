@@ -11,12 +11,12 @@ import configHandler from "./config";
 export default {
 	name: "ui-proccessor",
 	transform(code: string, id: string) {
-		if (id.includes("/internal")) return;
+		if (!id.includes("/src")) return;
 
 		if (id.endsWith("ts") || id.endsWith("js")) {
 			let newCode =  replaceCustomHooks(code);
 			newCode = replaceImport(newCode);
-			console.log(newCode);
+			// console.log(newCode);
 			return {
 				code: newCode,
 				map: null,
@@ -28,7 +28,6 @@ export default {
 		const name = getJSXElementName(code);
 		let newCode = replaceSpecialFunctions(code, name);
 		newCode = replaceImport(newCode);
-		console.log(newCode);
 		// console.log(newCode);
 		newCode = replaceSignalHTMLElement(newCode);
 
