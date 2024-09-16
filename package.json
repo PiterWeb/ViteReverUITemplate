@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --outDir dist/server --ssr src/main.ts",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
