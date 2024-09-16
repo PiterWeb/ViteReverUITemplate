@@ -2,19 +2,18 @@
 
 ### Experimental ⚠️
 
-### 🔥 Similar to React 👀
-
+### 🔥 Simpler than React 👀
 ### 🔑 TS Native 🔐
-
 ### ❌ No Virtual DOM 📦
 
 #### Current functionality:
 
--   [x] JSX Elements (html & js evaluated)
+-   [x] React-like JSX
 -   [x] useSignal ♻
 -   [x] Good intellisense
 -   [x] useEffect (state changes & mounted)
--   [ ] Fragments (<> </>)
+-   [x] Fragments (<> </>) (only work without state)
+-   [x] Custom Hooks (must start with "use")
 -   [x] Conditional Rendering (ternary operator) ❓
 -   [x] List Rendering (array.map) 📜
 -   [x] Event Handling (all events in lowercase) <kbd>Click</kbd> <kbd>Key</kbd> ...
@@ -32,6 +31,7 @@ This are the features that Vite provides:
 -   Bundler
 -   HMR (Hot Module Replacement)
 -   Support for CSS Preprocessors
+-   Transpiler
 
 ### Try it yourself:
 

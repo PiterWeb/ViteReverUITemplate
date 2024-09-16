@@ -1,23 +1,12 @@
-import { useEffect, useSignal } from "@UIFunctions";
+import { useEffect } from "@UIFunctions";
+import useCounter from "./hooks/useCounter";
 
-export default function Counter() {
+export default function CounterWithHook() {
 	useEffect(() => {
 		console.log("ExampleStateFull mounted");
 	});
 
-	const count = useSignal(0);
-
-	const incrementCount = () => {
-		count.value++;
-	};
-
-	const decrementCount = () => {
-		count.value--;
-	};
-
-	useEffect(() => {
-		console.log(`Count changed to`, count.value);
-	}, [count]);
+	const { count, decrementCount, incrementCount } = useCounter();
 
 	return (
 		<div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w h-screen">

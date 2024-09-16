@@ -6,10 +6,10 @@ interface createElementOptions {
 }
 
 export class UIElementProto {
-    prototype = {
-        __id__: "",
-        __state__: new StateStore(),
-    }
+	prototype = {
+		__id__: "",
+		__state__: new StateStore(),
+	};
 }
 
 export type UIComponent = () => HTMLElement;
@@ -18,7 +18,7 @@ type children =
 	| (string | number | boolean | HTMLElement)[]
 	| (string | number | boolean | HTMLElement)[][];
 
-export function $UI(component: UIComponent, parent: HTMLElement) {
+export function $UI(component: UIComponent, parent?: HTMLElement | null) {
 	UI.HandleStateFull(component as UIComponent & UIElementProto, parent);
 }
 
@@ -93,7 +93,7 @@ export default class UI {
 	public static Fragment = "Fragment";
 
 	static setId(el: HTMLElement, id: string) {
-		// if (!(el instanceof DocumentFragment)) return;
+		if (el instanceof DocumentFragment) return;
 		el.setAttribute("data-fr-id", id);
 
 		for (let i = 0; i < el.children.length; i++) {
@@ -214,7 +214,7 @@ export default class UI {
 
 	public static HandleStateFull(
 		elementFun: UIComponent & UIElementProto,
-		parent: HTMLElement
+		parent?: HTMLElement | null
 	) {
 		const id = UIGenerateId();
 
@@ -223,6 +223,8 @@ export default class UI {
 		let actualElement = elementFun();
 
 		this.setId(actualElement, id);
+
+		if (!parent) parent = document.body 
 
 		parent.appendChild(actualElement);
 

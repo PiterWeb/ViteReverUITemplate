@@ -2,7 +2,7 @@ import { useEffect, useSignal } from "@UIFunctions";
 
 interface TodoItem {
 	content: string;
-	completed: "✔" | "❌";
+	completed: boolean;
 }
 
 export default function Todo() {
@@ -16,7 +16,7 @@ export default function Todo() {
 
 		todos.value = [
 			...todos.value,
-			{ content: data.get("content") as string, completed: "❌" },
+			{ content: data.get("content") as string, completed: false },
 		];
 	}
 
@@ -32,29 +32,21 @@ export default function Todo() {
 		<div>
 			<style jsx>
 				{`
-                    {/* * {
+					 {
+						/* * {
 						color: blue;
 						background-color: red;
 					}
 
 					ul {
 						background-color:blue
-					} */}
-                `}
+					} */
+					}
+				`}
 			</style>
 
-			<div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w h-screen mx-auto">
-				<h1 className="text-3xl font-bold mb-8">Todo</h1>
-				<ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
-					{todos.value.map((todo, i) => (
-						<li className="flex items-center" key={i}>
-							<button onclick={() => deleteTodo(i)}>
-								{todo.completed}
-							</button>
-							{todo.content}
-						</li>
-					))}
-				</ul>
+			<div className="flex flex-col items-center bg-gray-100 rounded-lg p-6 max-w h-screen">
+				<h2 className="text-3xl font-bold mb-8">Todo</h2>
 
 				<form
 					className="flex justify-center items-center"
@@ -75,6 +67,33 @@ export default function Todo() {
 						className="border-2 border-gray-500 rounded-full px-4 py-2 mx-4"
 					/>
 				</form>
+
+				<ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
+					{todos.value.map((todo, i) => (
+						<li className="max-w-md mx-auto p-4" key={i}>
+							<div className="flex items-center justify-between bg-white shadow-md p-4 rounded-lg mb-2">
+								<div className="flex items-center space-x-3">
+									<input
+										type="checkbox"
+										className="form-checkbox h-5 w-5 text-blue-600 rounded"
+										checked={todo.completed}
+										onchange={(e: any) => todos.value[i].completed = e.target?.checked}
+									/>
+									<span className="text-lg font-medium text-gray-900">
+										{todo.content}
+									</span>
+								</div>
+
+								<button
+									className="text-red-500 hover:text-red-600 focus:outline-none"
+									onclick={() => deleteTodo(i)}
+								>
+									❌
+								</button>
+							</div>
+						</li>
+					))}
+				</ul>
 			</div>
 		</div>
 	);

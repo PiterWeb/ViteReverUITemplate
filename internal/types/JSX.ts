@@ -22,6 +22,10 @@ declare global {
 			[elemName in keyof HTMLElementTagNameMap]: UIElement<
 				keyof HTMLElementTagNameMap
 			>;
+		} & {
+			svg: SVGElement & ElementChildrenAttribute & Partial<Omit<HTMLElement, "children">>;
+			[key: string]: any
 		};
 	}
 }
+

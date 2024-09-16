@@ -1,6 +1,5 @@
 import { UIGenerateId } from "../utils/id";
 
-
 export function replaceImport(code: string) {
 	const regex = /import\s*([^+]*)\s*from\s*"@UIFunctions"/g;
 
@@ -40,27 +39,33 @@ export function replaceSignalHTMLElement(code: string) {
 	return newCode;
 }
 
+export function replaceCustomHooks(code: string) {
+	let newCode = code;
+
+	const parentArg = "__parent__arg__";
+
+	newCode = replaceSpecialFunctions(newCode, parentArg);
+
+	return newCode;
+}
+
 export function replaceSpecialFunctions(code: string, name: string) {
 	let newCode = code;
 
 	const id = UIGenerateId();
 
 	// useSignal
-
 	// Add id to useSignal
 	newCode = newCode.replaceAll(
-		/(\w+)\s*=\s*useSignal\s*\(\s*([^*])\s*?\)\s*;/g,
+		/(\w+)\s*=\s*useSignal\s*\(([^)]*)\)\s*/g,
 		`$1 = useSignal($2, "$1-${id}");`
 	);
 
-	// Add function name to useSignal
+	// Add parent name to all use<Name>() functions [customHooks, useSignal, useEffect]
 	newCode = newCode.replaceAll(
-		/=\s*useSignal\s*\(\s*/g,
-		`= useSignal(${name}, `
+		/\s*use(\w+)\s*\(\s*/g,
+		` use$1(${name}, `
 	);
-
-	// useEffect
-	newCode = newCode.replaceAll(/useEffect\s*\(\s*/g, `useEffect(${name}, `);
 
 	return newCode;
 }
@@ -70,4 +75,3 @@ export function getJSXElementName(code: string) {
 	if (!match) return "";
 	return match[1];
 }
-
