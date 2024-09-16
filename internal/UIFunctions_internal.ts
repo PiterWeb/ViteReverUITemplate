@@ -1,28 +1,32 @@
 import StateStore from "./StateStore";
 import deepEqual from "./utils/deep_equal";
-import { ElProto } from "@UI";
+import { UIElementProto, UIComponent } from "@UI";
+import UI from "@UI";
 
 export interface Signal<t> {
 	value: t;
 	readonly id: string;
-	lastValue:() => t;
+	lastValue: () => t;
 	readonly lastValueStringified: string;
 }
 
 export function useSignal<T>(
-	el: (() => HTMLElement) & ElProto,
+	el: UIComponent & UIElementProto,
 	initvalue: T,
 	id: string
 ): Signal<T> {
 	let value = initvalue;
-	let state = el.prototype.state;
+	let state = el.prototype.__state__;
+	let elId =  el.prototype.__id__;
 
-	const keyState = `state-${id}`;
+	console.log(el.prototype.__state__);
+
+	const keyState = `state-${id}-${elId}`;
 	const lastKeyState = `last-${keyState}`;
 
 	if (state === undefined) {
-		el.prototype.state = new StateStore();
-		state = el.prototype.state;
+		el.prototype.__state__ = new StateStore();
+		state = el.prototype.__state__;
 		state.setProp(keyState, value);
 	} else if (state.getProp(keyState) === undefined) {
 		state.setProp(keyState, value);
@@ -33,7 +37,9 @@ export function useSignal<T>(
 		state.setProp(keyState, newValue);
 
 		// Trigger re-render
-		state.setProp("el", el());
+		const newRender = el();
+		UI.setId(newRender, elId);
+		state.setProp(`el-${elId}`, newRender);
 	};
 
 	return {
@@ -47,7 +53,7 @@ export function useSignal<T>(
 			return JSON.stringify(this.lastValue());
 		},
 		set value(newValue: T) {
-			const value = this.value
+			const value = this.value;
 			if (newValue === value || deepEqual(newValue, value)) return;
 			setState(newValue);
 		},
@@ -57,22 +63,27 @@ export function useSignal<T>(
 
 //
 export function useEffect(
-	el: (() => HTMLElement) & ElProto,
+	el: UIComponent & UIElementProto,
 	callback: () => void,
 	dependencies?: Signal<unknown>[] | string[]
 ) {
-	if (dependencies === undefined && el.prototype.state === undefined) {
+
+	let elId =  el.prototype.__id__.repeat(1);
+
+	if (dependencies === undefined && el.prototype.__state__ === undefined) {
 		return callback();
 	}
 
-	if (dependencies !== undefined && el.prototype.state !== undefined) {
-		const state = el.prototype.state as StateStore;
+	if (dependencies !== undefined && el.prototype.__state__ !== undefined) {
+		const state = el.prototype.__state__ as StateStore;
 
 		dependencies.forEach((dependency) => {
 			if (typeof dependency === "string") {
-				const value = state.getProp("state-" + dependency);
+				const keyState = `state-${dependency}-${elId}`;
+				const lastKeyState = `last-${keyState}`;
 
-				const lastValue = state.getProp("last-state-" + dependency);
+				const value = state.getProp(keyState);
+				const lastValue = state.getProp(lastKeyState);
 
 				if (value === lastValue) return;
 
@@ -80,9 +91,11 @@ export function useEffect(
 				return;
 			}
 
-			const value = state.getProp("state-" + dependency.id);
+			const keyState = `state-${dependency.id}-${elId}`;
+			const lastKeyState = `last-${keyState}`;
 
-			const lastValue = state.getProp("last-state-" + dependency.id);
+			const value = state.getProp(keyState);
+			const lastValue = state.getProp(lastKeyState);
 
 			if (value === lastValue) return;
 
