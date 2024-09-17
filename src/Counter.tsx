@@ -1,11 +1,12 @@
-import { useEffect, useSignal } from "@UIFunctions";
+import { $useEffect, $useSignal } from "reverui";
+
 
 export default function Counter() {
-	useEffect(() => {
+	$useEffect(() => {
 		console.log("ExampleStateFull mounted");
 	});
 
-	const count = useSignal(0);
+	const count = $useSignal(0);
 
 	const incrementCount = () => {
 		count.value++;
@@ -15,7 +16,7 @@ export default function Counter() {
 		count.value--;
 	};
 
-	useEffect(() => {
+	$useEffect(() => {
 		console.log(`Count changed to`, count.value);
 	}, [count]);
 

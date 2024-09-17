@@ -1,12 +1,12 @@
-import { useEffect } from "@UIFunctions";
-import useCounter from "./hooks/useCounter";
+import { $useEffect } from "reverui";
+import $useCounter from "./hooks/useCounter";
 
 export default function CounterWithHook() {
-	useEffect(() => {
+	$useEffect(() => {
 		console.log("ExampleStateFull mounted");
 	});
 
-	const { count, decrementCount, incrementCount } = useCounter();
+	const { count, decrementCount, incrementCount } = $useCounter();
 
 	return (
 		<div className="flex flex-col items-center rounded-lg p-6 max-w">

@@ -1,4 +1,4 @@
-import { useEffect, useSignal } from "@UIFunctions";
+import { $useEffect, $useSignal } from "reverui";
 
 interface TodoItem {
 	content: string;
@@ -6,7 +6,7 @@ interface TodoItem {
 }
 
 export default function Todo() {
-	const todos = useSignal<TodoItem[]>([]);
+	const todos = $useSignal<TodoItem[]>([]);
 
 	function addTodo(event: Event) {
 		event.preventDefault();
@@ -24,7 +24,7 @@ export default function Todo() {
 		todos.value = [...todos.value.filter((_, i) => i !== index)];
 	}
 
-	useEffect(() => {
+	$useEffect(() => {
 		console.table(todos.value);
 	}, [todos]);
 

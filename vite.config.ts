@@ -1,8 +1,8 @@
-import { defineConfig } from "vite";
-import UIPlugin from "./internal/vite/plugin"
+import { defineConfig, PluginOption } from "vite";
+import { ReverVitePlugin } from "reverui"
 
 export default defineConfig({
     plugins: [
-        UIPlugin
+        ReverVitePlugin as PluginOption
     ],
 });

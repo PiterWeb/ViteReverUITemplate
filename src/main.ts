@@ -1,5 +1,5 @@
 import "./index.css";
-import {$UI} from "@UI";
+import {$UI} from "reverui";
 
 import Todo from "./Todo";
 import Banner from "./Banner";

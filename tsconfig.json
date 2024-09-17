@@ -1,19 +1,6 @@
 {
+  "extends":"reverui/tsconfig.json",
   "compilerOptions": {
-    "jsx": "react",
-    "jsxFactory": "UI.createElement",
-    "jsxFragmentFactory": "UI.Fragment",
-    "paths": {
-      "@UI": [
-        "./internal/UI",
-      ],
-      "@UIElements": [
-        "./internal/UIElements",
-      ],
-      "@UIFunctions": [
-        "./internal/UIFunctions",
-      ],
-    },
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -34,6 +21,5 @@
   },
   "include": [
     "src",
-    "internal"
   ]
 }
