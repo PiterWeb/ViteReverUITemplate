@@ -6,6 +6,7 @@ interface TodoItem {
 }
 
 export default function Todo() {
+
 	const todos = $useSignal<TodoItem[]>([]);
 
 	function addTodo(event: Event) {
@@ -30,23 +31,9 @@ export default function Todo() {
 
 	return (
 		<div>
-			<style jsx>
-				{`
-					 {
-						/* * {
-						color: blue;
-						background-color: red;
-					}
-
-					ul {
-						background-color:blue
-					} */
-					}
-				`}
-			</style>
 
 			<div className="flex flex-col items-center rounded-lg p-6 max-w">
-				<h2 className="text-3xl font-bold mb-8">Todo</h2>
+				<h2 className="text-2xl mb-8">Todo</h2>
 
 				<form
 					className="flex justify-center items-center"

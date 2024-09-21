@@ -1,7 +1,8 @@
-import { $useEffect } from "reverui";
+import { $useEffect, $Component } from "reverui";
 import $useCounter from "./hooks/useCounter";
+import Counter from "./Counter";
 
-export default function CounterWithHook() {
+export default function CounterWithHook(this: any) {
 	$useEffect(() => {
 		console.log("ExampleStateFull mounted");
 	});
@@ -10,7 +11,7 @@ export default function CounterWithHook() {
 
 	return (
 		<div className="flex flex-col items-center rounded-lg p-6 max-w">
-			<h2 className="text-3xl font-bold mb-8">Counter</h2>
+			<h2 className="text-2xl mb-8">Counter</h2>
 			<div className="flex justify-center items-center bg-white rounded-full h-16 w-16 mb-8">
 				{<p className="text-2xl font-bold text-black">{count.value}</p>}
 			</div>
@@ -28,6 +29,10 @@ export default function CounterWithHook() {
 					+
 				</button>
 			</div>
+
+			<$Component fn={Counter} ref={this} />
+
+			{/* <Counter/> */}
 		</div>
 	);
 }
