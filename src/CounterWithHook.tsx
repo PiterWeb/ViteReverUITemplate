@@ -30,9 +30,14 @@ export default function CounterWithHook(this: any) {
 				</button>
 			</div>
 
-			<$Component fn={Counter} ref={this} />
+			{/* Counter component embeded */}
 
-			{/* <Counter/> */}
+			<$Component
+				element={Counter}
+				ref={this}
+				props={{initialCount: 20}}
+			></$Component>
+
 		</div>
 	);
 }
