@@ -3,11 +3,12 @@ import $useCounter from "./hooks/useCounter";
 import Counter from "./Counter";
 
 export default function CounterWithHook(this: any) {
+	
+	const { count, decrementCount, incrementCount } = $useCounter();
+
 	$useEffect(() => {
 		console.log("ExampleStateFull mounted");
-	});
-
-	const { count, decrementCount, incrementCount } = $useCounter();
+	}, []);
 
 	return (
 		<div className="flex flex-col items-center rounded-lg p-6 max-w">
