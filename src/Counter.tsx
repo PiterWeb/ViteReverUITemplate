@@ -23,7 +23,7 @@ export default function Counter({ initialCount }: { initialCount?: number }) {
 		<div className="flex flex-col items-center rounded-lg p-6 max-w">
 			<h2 className="text-2xl mb-8">Counter</h2>
 			<div className="flex justify-center items-center bg-white rounded-full h-16 w-16 mb-8">
-				{<p className="text-2xl font-bold text-black">{count.value}</p>}
+				<p className="text-2xl font-bold text-black">{count.value}</p>
 			</div>
 			<div className="flex justify-center items-center">
 				<button

@@ -3,6 +3,6 @@ import { ReverVitePlugin } from "reverui"
 
 export default defineConfig({
     plugins: [
-        ReverVitePlugin as PluginOption
+        ReverVitePlugin() as PluginOption
     ],
 });

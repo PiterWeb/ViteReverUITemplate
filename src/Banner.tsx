@@ -1,6 +1,9 @@
+import Expander from "./Expander";
 import reverLogo from "/logo_rever.webp";
 
-export default function Banner() {
+import { $Component } from "reverui";
+
+export default function Banner(this: any) {
 
 	return (
 		<div className="flex flex-col items-center rounded-lg p-6 w-max mx-auto">
@@ -21,6 +24,8 @@ export default function Banner() {
 			<p className="bg-gray-200 p-6 text-black rounded text-md">
 				All the website was created using exclusively <a href="https://github.com/PiterWeb/ReverUI" className="underline">ReverUI</a>
 			</p>
+			<$Component element={Expander} ref={this}/>
+			
 		</div>
 	);
 }
