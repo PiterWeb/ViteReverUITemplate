@@ -18,7 +18,7 @@ export default function Expander(this: any) {
                 Expand
             </button>
             <$Show when={showExpanded.value}>
-                <$Component element={Counter} ref={this} />
+                <$Component element={Counter} ref={this} props={{}} />
             </$Show>
             
         </div>

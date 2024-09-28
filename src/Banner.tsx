@@ -24,7 +24,7 @@ export default function Banner(this: any) {
 			<p className="bg-gray-200 p-6 text-black rounded text-md">
 				All the website was created using exclusively <a href="https://github.com/PiterWeb/ReverUI" className="underline">ReverUI</a>
 			</p>
-			<$Component element={Expander} ref={this}/>
+			<$Component element={Expander} ref={this} props={{}}/>
 			
 		</div>
 	);
