@@ -1,9 +1,11 @@
 import "./index.css";
 
+import Banner from "./Banner";
+
 import { $lazy, $Router } from "reverouter";
 
 $Router({
-	"/": $lazy(() => import("./Banner")),
+	"/": () => Banner,
 	"/todo": $lazy(() => import("./Todo")),
 	"/counter": $lazy(() => import("./Counter")),
 	"/counter-with-hook": $lazy(() => import("./CounterWithHook")),
