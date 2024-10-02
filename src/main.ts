@@ -1,12 +1,10 @@
 import "./index.css";
-import {$UI} from "reverui";
 
-import Todo from "./Todo";
-import Banner from "./Banner";
-import CounterWithHook from "./CounterWithHook";
-import Counter from "./Counter";
+import { $lazy, $Router } from "reverouter";
 
-$UI(Banner, document.getElementById("banner"))
-$UI(Todo, document.getElementById("grid"));
-$UI(Counter, document.getElementById("grid"));
-$UI(CounterWithHook, document.getElementById("grid"))
+$Router({
+	"/": $lazy(() => import("./Banner")),
+	"/todo": $lazy(() => import("./Todo")),
+	"/counter": $lazy(() => import("./Counter")),
+	"/counter-with-hook": $lazy(() => import("./CounterWithHook")),
+});

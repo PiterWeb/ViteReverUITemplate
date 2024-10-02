@@ -2,6 +2,7 @@ import Expander from "./Expander";
 import reverLogo from "/logo_rever.webp";
 
 import { $Component } from "reverui";
+import { $Link } from "reverouter";
 
 export default function Banner(this: any) {
 
@@ -26,6 +27,10 @@ export default function Banner(this: any) {
 			</p>
 			<$Component element={Expander} ref={this} props={{}}/>
 			
+			<$Link href="/counter">Counter</$Link>
+			<$Link href="/counter-with-hook">Counter With Hook</$Link>
+			<$Link href="/todo">Todo</$Link>
+
 		</div>
 	);
 }
