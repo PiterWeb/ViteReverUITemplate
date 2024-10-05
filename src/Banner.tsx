@@ -1,7 +1,7 @@
-// import Expander from "./Expander";
+import Expander from "./Expander";
 import reverLogo from "/logo_rever.webp";
 
-// import { $Component } from "reverui";
+import { $Component } from "reverui";
 import { $Link } from "reverouter";
 
 export default function Banner(this: any) {
@@ -40,7 +40,7 @@ export default function Banner(this: any) {
 
 			<h3 className="text-2xl font-bold mt-8 mb-4">Examples</h3>
 
-			{/* <$Component element={Expander} ref={this} props={{}}/> */}
+			<$Component element={Expander} ref={this} props={{}}/>
 
 			<div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-4xl mt-8">
 				<$Link

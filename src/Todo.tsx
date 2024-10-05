@@ -1,12 +1,12 @@
 import { $For, $useEffect, $useSignal } from "reverui";
+import TodoElement from "./TodoElement";
 
-interface TodoItem {
+export interface TodoItem {
 	content: string;
 	completed: boolean;
 }
 
 export default function Todo(this: any) {
-
 	const todos = $useSignal<TodoItem[]>([]);
 
 	function addTodo(event: Event) {
@@ -21,17 +21,12 @@ export default function Todo(this: any) {
 		];
 	}
 
-	function deleteTodo(index: number) {
-		todos.value = [...todos.value.filter((_, i) => i !== index)];
-	}
-
 	$useEffect(() => {
 		console.table(todos.value);
 	}, [todos]);
 
 	return (
 		<div>
-
 			<div className="flex flex-col items-center rounded-lg p-6 max-w">
 				<h2 className="text-2xl mb-8">Todo</h2>
 
@@ -56,31 +51,16 @@ export default function Todo(this: any) {
 				</form>
 
 				<ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
-					<$For each={todos.value} element={({value, index}) => {
-						return <li className="max-w-md mx-auto p-4" key={index}>
-						<div className="flex items-center justify-between bg-white shadow-md p-4 rounded-lg mb-2">
-							<div className="flex items-center space-x-3">
-								<input
-									type="checkbox"
-									className="form-checkbox h-5 w-5 text-blue-600 rounded"
-									checked={value.completed}
-									onchange={(e: any) => todos.value[index].completed = e.target?.checked}
-								/>
-								<span className="text-lg font-medium text-gray-900">
-									{value.content}
-								</span>
-							</div>
-
-							<button
-								className="text-red-500 hover:text-red-600 focus:outline-none"
-								onclick={() => deleteTodo(index)}
-							>
-								❌
-							</button>
-						</div>
-					</li>
-					}} />
-
+					<$For
+						each={todos.value}
+						element={({ value, index }) => (
+							<TodoElement
+								todos={todos}
+								value={value}
+								index={index}
+							/>
+						)}
+					/>
 				</ul>
 			</div>
 		</div>

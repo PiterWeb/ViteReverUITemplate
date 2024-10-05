@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "reverouter": "^2.1.0",
-    "reverui": "^0.4.2"
+    "reverui": "^0.5.0"
   }
 }
