@@ -1,4 +1,4 @@
-import { $useEffect, $Component } from "reverui";
+import { $useEffect } from "reverui";
 import $useCounter from "./hooks/useCounter";
 import Counter from "./Counter";
 
@@ -35,7 +35,6 @@ export default function CounterWithHook(this: any) {
 
 			<$Component
 				element={Counter}
-				ref={this}
 				props={{initialCount: 20}}
 			></$Component>
 

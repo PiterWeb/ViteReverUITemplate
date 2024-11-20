@@ -1,4 +1,4 @@
-import { $For, $useEffect, $useSignal } from "reverui";
+import { $useEffect, $useSignal } from "reverui";
 import TodoElement from "./TodoElement";
 
 export interface TodoItem {
