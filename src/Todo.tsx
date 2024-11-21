@@ -6,7 +6,7 @@ export interface TodoItem {
 	completed: boolean;
 }
 
-export default function Todo(this: any) {
+export default function Todo() {
 	const todos = $useSignal<TodoItem[]>([]);
 
 	function addTodo(event: Event) {

@@ -1,7 +1,7 @@
 import { $useEffect, $useSignal } from "reverui";
 import Counter from "./Counter";
 
-export default function Expander(this: any) {
+export default function Expander() {
 	const showExpanded = $useSignal(false);
 
 	$useEffect(() => {
@@ -13,13 +13,11 @@ export default function Expander(this: any) {
 	}
 	return (
 		<>
-			<button onclick={toogleExpand}>Expand</button>
+			<button onclick={toogleExpand}>Show / Hide Embeded Counter</button>
 			<$Show
 				when={showExpanded.value}
-				element={() => (
-					<$Component element={Counter} ref={this} props={{}} />
-				)}
-			></$Show>
+				element={() => <$Component element={Counter} props={{}} />}
+			/>
 		</>
 	);
 }

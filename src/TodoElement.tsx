@@ -1,7 +1,7 @@
 import { Signal } from "reverui";
 import { TodoItem } from "./Todo";
 
-export default function TodoElement(this: any, {todos, value, index}: {
+export default function TodoElement({todos, value, index}: {
     todos: Signal<TodoItem[]>;
     value: TodoItem;
     index: number;

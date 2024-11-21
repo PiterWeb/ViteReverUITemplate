@@ -2,7 +2,7 @@ import { $useEffect } from "reverui";
 import $useCounter from "./hooks/useCounter";
 import Counter from "./Counter";
 
-export default function CounterWithHook(this: any) {
+export default function CounterWithHook() {
 	
 	const { count, decrementCount, incrementCount } = $useCounter();
 
