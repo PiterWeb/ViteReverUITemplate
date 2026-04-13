@@ -46,7 +46,7 @@ export default function Todo() {
 						name="content"
 						id="content"
 						placeholder="Add todo"
-						className="border-2 border-gray-500 rounded-full px-4 py-2 mx-4"
+						className="text-gray-800 border-2 border-gray-500 rounded-full px-4 py-2 mx-4"
 					/>
 				</form>
 

@@ -13,7 +13,7 @@ export default function TodoElement({todos, value, index}: {
 
     return (
 		<li className="max-w-md mx-auto p-4" key={index}>
-			<div className="flex items-center justify-between bg-white shadow-md p-4 rounded-lg mb-2">
+			<div className="flex items-center justify-between bg-white shadow-md p-4 rounded-lg mb-2 gap-5">
 				<div className="flex items-center space-x-3">
 					<input
 						type="checkbox"
